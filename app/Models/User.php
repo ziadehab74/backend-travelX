@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
@@ -52,7 +53,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->attributes['password'] = Hash::make($password);
     }
+    public function sendPasswordResetNotification($token)
+    {
 
+        $url = 'https://spa.test/reset-password?token=' . $token;
+
+        $this->notify(new ResetPasswordNotification($url));
+    }
     public function bookings() {
         $this->hasMany(booking::class);
     }

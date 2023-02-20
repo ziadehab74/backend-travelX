@@ -1,14 +1,16 @@
 <?php
 
-use App\Http\Controllers\Api\Auth\EmailVerficationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\NewPasswordController;
+
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\api\HotelsApi\LoginHotelController;
 use App\Http\Controllers\CityController;
 
 use App\Http\Controllers\Api\HotelsApi\RegisterHotelsController;
+use App\Http\Controllers\Api\EmailVerficationController;
 use App\Http\Controllers\Hotels\HotelsController;
 
 /*
@@ -31,8 +33,10 @@ Route::post('/register',[RegisterController::class, 'register']);
 Route::post('/login',[LoginController::class, 'login']);
 Route::post('/verification-notification', [EmailVerficationController::class, 'sendVerficationEmail'])->middleware('auth:sanctum');
 Route::get('verify-email/{id}/{hash}', [EmailVerficationController::class, 'verify'])->name('verification.verify');
+Route::post('/forgot-password', [NewPasswordController::class, 'forgotPassword']);
+Route::post('/reset-password', [NewPasswordController::class, 'reset']);
 // Hotels Routes
-route::get('/Allhotles',[HotelsController::class,'index'])->middleware('auth:sanctum');
+route::get('/Allhotles',[HotelsController::class,'index']);
 route::post('/Registerhotels',[RegisterHotelsController::class,'register']);
 route::post('/LoginHotels',[LoginHotelController::class,'login']);
 
