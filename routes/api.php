@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\EmailVerficationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\LoginController;
@@ -28,8 +29,10 @@ Route::middleware('auth:sanctum')->group(function () {
 // Admin Routes
 Route::post('/register',[RegisterController::class, 'register']);
 Route::post('/login',[LoginController::class, 'login']);
+Route::post('/verification-notification', [EmailVerficationController::class, 'sendVerficationEmail'])->middleware('auth:sanctum');
+Route::get('verify-email/{id}/{hash}', [EmailVerficationController::class, 'verify'])->name('verification.verify');
 // Hotels Routes
-route::get('/Allhotles',[HotelsController::class,'index']);
+route::get('/Allhotles',[HotelsController::class,'index'])->middleware('auth:sanctum');
 route::post('/Registerhotels',[RegisterHotelsController::class,'register']);
 route::post('/LoginHotels',[LoginHotelController::class,'login']);
 
